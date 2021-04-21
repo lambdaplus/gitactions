@@ -42,9 +42,13 @@ jobs:
           
       - name: Download files
         run: python ./hushen_action.py
+      
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
         
       - name : Upload artifact
         uses: actions/upload-artifact@master
         with:
-          name: HuShenGang
+          name: HuShenGang-${{ steps.date.outputs.date }}
           path: ./*.xlsx
