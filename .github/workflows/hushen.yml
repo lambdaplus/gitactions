@@ -25,11 +25,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2
-      
-      - name: make dir
-        run: |
-          mkdir -p ./hushengangtong
-          cd ./hushengangtong
           
       - name: Set up Python 3.x
         uses: actions/setup-python@v2
@@ -52,4 +47,4 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: HuShenGang
-          path: ./hushengangtong/*
+          path: ./*.xlsx
