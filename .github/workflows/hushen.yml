@@ -25,9 +25,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          ref: master
-          
+      
       - name: make dir
         run: |
           mkdir -p ./hushengangtong
