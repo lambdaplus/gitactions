@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: 沪深港通60日净流入数据
 
 # Controls when the action will run. 
 on:
