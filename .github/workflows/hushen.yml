@@ -47,7 +47,7 @@ jobs:
           pip install pandas
           
       - name: Download files
-        run: python ./husheng_action.py
+        run: python ./hushen_action.py
         
       - name : Upload artifact
         uses: actions/upload-artifact@master
