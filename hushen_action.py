@@ -57,7 +57,7 @@ user_agent = [
     "Openwave/ UCWEB7.0.2.37/28/999",
     "Mozilla/4.0 (compatible; MSIE 6.0; ) Opera/UCWEB7.0.2.37/28/999",
     # iPhone 6：
-	"Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25",
+    "Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25",
 ]
 
 start = time.time()
@@ -87,7 +87,7 @@ rows = []
 # 获取网页信息
 async def fetch(session, url):
     headers = {'User-Agent': random.choice(user_agent)}
-    async with session.get(url, timeout=30, headers=headers) as response:
+    async with session.get(url, headers=headers, timeout=60,) as response:
         return await response.text(encoding='utf-8')
     
 # 解析网页
