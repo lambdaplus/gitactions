@@ -46,6 +46,19 @@ jobs:
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      
+      - name: Send mail
+        uses: dawidd6/action-send-mail@master
+        with:
+          server_address: smtp.163.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: 沪深港通60日净流入数据
+          body: file://*.xlsx
+          to: wanghao010418@gmail.com
+          from: GitHub Actions
+          content_type: text/plain
         
       - name : Upload artifact
         uses: actions/upload-artifact@master
