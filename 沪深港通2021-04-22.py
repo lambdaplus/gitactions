@@ -99,7 +99,7 @@ def get_all_stock():
         print('\n正在下载第 %s 页表格' % page)
         rows = get_one_page_stock(page)
         all_rows.extend(rows)
-        time.sleep(0.5)
+        time.sleep(2)
     print("下载已完成。。。。。")
     return all_rows
 
