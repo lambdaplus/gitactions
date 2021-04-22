@@ -43,10 +43,16 @@ jobs:
       - name: Download files
         run: python ./hushen_action.py
       
-      - name: Get current date
+      - name: Get yestoday date
         id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-      
+        run: echo "::set-output name=date::$(date -d last-day +%Y-%m-%d)"
+        
+      - name : Upload artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: HuShenGang-${{ steps.date.outputs.date }}
+          path: ./*.xlsx
+
       - name: Send mail
         uses: dawidd6/action-send-mail@v2
         with:
@@ -60,8 +66,4 @@ jobs:
           from: GitHub Actions
           content_type: text/plain
         
-      - name : Upload artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: HuShenGang-${{ steps.date.outputs.date }}
-          path: ./*.xlsx
+     
