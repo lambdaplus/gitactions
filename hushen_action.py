@@ -87,7 +87,7 @@ rows = []
 # 获取网页信息
 async def fetch(session, url):
     headers = {'User-Agent': random.choice(user_agent)}
-    async with session.get(url, headers=headers) as response:
+    async with session.get(url, timeout=30, headers=headers) as response:
         return await response.text(encoding='utf-8')
     
 # 解析网页
@@ -104,7 +104,7 @@ async def parser(html):
     
 # 下载网页
 async def download(url):
-    async with aiohttp.ClientSession() as session:
+    async with aiohttp.ClientSession(trust_env = True) as session:
         html = await fetch(session, url)
         await parser(html)
 
