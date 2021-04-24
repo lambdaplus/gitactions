@@ -70,6 +70,7 @@ today = result[1:11]
 print(f'今天获取的数据是: {today}')
 
 fname = str(today)+".xlsx"
+f_test = str(today)+".html"
 fname1 = "PPOS_POTE_"+fname
 fname2 = "PPOS_POTE_SZ_"+fname
 
@@ -123,6 +124,7 @@ df.columns = ['日期', '代码', '名称', '最新股价' , '市值', '市值�
 df.sort_values(by='市值', ascending=False)
 try:
     df.to_excel(fname) # 保存成Excel文件
+    df.to_html(f_test)
 except Exception as e:
     print("请关闭文件后再试", e)
 
