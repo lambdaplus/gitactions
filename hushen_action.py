@@ -121,7 +121,7 @@ asyncio.run(main())
 df = pd.DataFrame(rows)
 df.columns = ['日期', '代码', '名称', '最新股价' , '市值', '市值增幅', '占流通股比', '占总股比']
 # 从大到小排序
-df.sort_values(by='市值', ascending=False)
+df = df.sort_values(by='市值', ascending=False)
 try:
     df.to_excel(fname) # 保存成Excel文件
     df.to_html(f_test)
