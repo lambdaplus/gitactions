@@ -65,6 +65,6 @@ jobs:
           to: wanghao010418@gmail.com
           from: GitHub Actions
           content_type: text/plain
-          attachments: file://${{ steps.date.outputs.date }}.xlsx
+          attachments: ./*.xlsx
         
      
