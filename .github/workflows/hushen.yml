@@ -41,7 +41,7 @@ jobs:
           pip install openpyxl
           
       - name: Download files
-        run: python ./沪深港通2021-04-22.py
+        run: python ./hushen_action.py
       
       - name: Get yestoday date
         id: date
