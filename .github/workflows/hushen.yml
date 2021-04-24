@@ -61,10 +61,9 @@ jobs:
           username: ${{ secrets.MAIL_USERNAME }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: 沪深港通60日净流入数据
-          body: ${{ steps.date.outputs.date }}.html
+          body: ${{ steps.date.outputs.date }}-.xlsx
           to: wanghao010418@gmail.com
           from: GitHub Actions
           content_type: text/html
-          # attachments: ./*.xlsx
-        
+          attachments: ${{ steps.date.outputs.date }}-.xlsx
      
