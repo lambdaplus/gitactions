@@ -65,5 +65,6 @@ jobs:
           to: wanghao010418@gmail.com
           from: GitHub Actions
           content_type: text/html
-          attachments: ${{ steps.date.outputs.date }}-.xlsx
+          attachments: ${{ steps.date.outputs.date }}-.xlsx,PPOS_POTE_${{ steps.date.outputs.date }}-.xlsx,PPOS_POTE_SZ_${{ steps.date.outputs.date }}-.xlsx
+        
      
