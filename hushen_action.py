@@ -69,7 +69,7 @@ result = xml.xpath('/html/body/div[1]/div[8]/div[2]/div[2]/div[1]/div[1]/div/spa
 today = result[1:11]
 print(f'今天获取的数据是: {today}')
 
-fname = str(today)+"-.xlsx"
+fname = str(today)+"-"+".xlsx"
 fname1 = "PPOS_POTE_"+fname
 fname2 = "PPOS_POTE_SZ_"+fname
 
