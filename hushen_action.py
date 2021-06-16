@@ -57,7 +57,7 @@ user_agent = [
     "Openwave/ UCWEB7.0.2.37/28/999",
     "Mozilla/4.0 (compatible; MSIE 6.0; ) Opera/UCWEB7.0.2.37/28/999",
     # iPhone 6：
-    "Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25",
+	"Mozilla/6.0 (iPhone; CPU iPhone OS 8_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/8.0 Mobile/10A5376e Safari/8536.25",
 ]
 
 start = time.time()
@@ -69,8 +69,7 @@ result = xml.xpath('/html/body/div[1]/div[8]/div[2]/div[2]/div[1]/div[1]/div/spa
 today = result[1:11]
 print(f'今天获取的数据是: {today}')
 
-fname = str(today)+"-"+".xlsx"
-f_test = str(today)+".html"
+fname = str(today)+".xlsx"
 fname1 = "PPOS_POTE_"+fname
 fname2 = "PPOS_POTE_SZ_"+fname
 
@@ -88,16 +87,19 @@ rows = []
 # 获取网页信息
 async def fetch(session, url):
     headers = {'User-Agent': random.choice(user_agent)}
-    async with session.get(url, headers=headers, timeout=60,) as response:
+    async with session.get(url, headers=headers) as response:
         return await response.text(encoding='utf-8')
     
 # 解析网页
 async def parser(html):
-    pat = re.compile('data:(.*)}', re.S) # 使用正则
+    pat = re.compile('"data":(.*),"pages"', re.S) # 使用正则
+    # pat = re.compile('"data":(.*),"pages"', re.S)
     result = re.search(pat, html).group(1)
     data = json.loads(result)
+    #print(len(data))
     if len(data) == 0:
         print('日期有错误，看看是不是日期不对。。。。。。')
+        print('总页数是不是不对，调整urls')
         sys.exit()
     for d in data:
         row = {key: value for key, value in d.items() if key in heads}
@@ -105,13 +107,15 @@ async def parser(html):
     
 # 下载网页
 async def download(url):
-    async with aiohttp.ClientSession(trust_env = True) as session:
+    async with aiohttp.ClientSession() as session:
         html = await fetch(session, url)
         await parser(html)
 
 #urls = [f'http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?callback=jQuery112305322211230994847_1618827285261&st=ShareSZ_Chg_One&sr=-1&ps=50&p='+str(p)+'&type=HSGT20_GGTJ_SUM&token=894050c76af8597a853f5b408b759f5d&js=%7B%22data%22%3A(x)%2C%22pages%22%3A(tp)%2C%22font%22%3A(font)%7D&filter=(DateType%3D%27jd%27)(HdDate%3D%27'+str(today)+'%27)' for p in range(1, 31)]
-urls = [f'http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_GGTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_Chg_One&sr=-1&p='+str(p)+'&ps=50&js=var%20mXyeKPjW={pages:(tp),data:(x)}&filter=(DateType=%27jd%27%20and%20HdDate=%27'+str(today)+'%27)&rt=53931781' for p in range(1, 31)]
-
+#urls = [f'http://dcfm.eastmoney.com/EM_MutiSvcExpandInterface/api/js/get?type=HSGT20_GGTJ_SUM&token=894050c76af8597a853f5b408b759f5d&st=ShareSZ_Chg_One&sr=-1&p='+str(p)+'&ps=50&js=var%20mXyeKPjW={pages:(tp),data:(x)}&filter=(DateType=%27jd%27%20and%20HdDate=%27'+str(today)+'%27)&rt=53931781' for p in range(1, 31)]
+# 2021.6.16号更改的链接
+# 注意总页数
+urls = [f'http://dcfm.eastmoney.com/em_mutisvcexpandinterface/api/js/get?callback=jQuery1123029557144498043253_1623832457146&st=ShareSZ_Chg_One&sr=-1&ps=50&p='+str(p)+'&type=HSGT20_GGTJ_SUM&token=894050c76af8597a853f5b408b759f5d&js=%7B%22data%22%3A(x)%2C%22pages%22%3A(tp)%2C%22font%22%3A(font)%7D&filter=(DateType%3D%27jd%27)(HdDate%3D%27'+str(today)+'%27)' for p in range(1, 30)]
 # 利用asyncio模块进行异步IO处理
 async def main():
     await asyncio.gather(*[download(url) for url in urls])
@@ -121,10 +125,9 @@ asyncio.run(main())
 df = pd.DataFrame(rows)
 df.columns = ['日期', '代码', '名称', '最新股价' , '市值', '市值增幅', '占流通股比', '占总股比']
 # 从大到小排序
-df = df.sort_values(by='市值', ascending=False)
+df.sort_values(by='市值', ascending=False)
 try:
     df.to_excel(fname) # 保存成Excel文件
-    df.to_html(f_test)
 except Exception as e:
     print("请关闭文件后再试", e)
 
