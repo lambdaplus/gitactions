@@ -5,10 +5,10 @@ name: 沪深港通60日净流入数据
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  schedule:
-    - cron: '0 5 * * *'
+  # push:
+  #   branches: [ master ]
+  # schedule:
+  #   - cron: '0 5 * * *'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
